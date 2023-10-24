@@ -1,11 +1,20 @@
 <script setup>
-import Home from "./components/Home.vue";
+import Navbar from "./components/Navbar.vue";
 </script>
 
 <template>
-  <div>
-    <Home />
+  <div class="app">
+    <div>
+      <Navbar/>
+    </div>
+
+    <router-view></router-view>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.app {
+  max-width: 1245px;
+  margin: 0 auto;
+}
+</style>
