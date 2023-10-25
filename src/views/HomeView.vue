@@ -1,11 +1,18 @@
-<script setup>
-import { onMounted } from "vue";
-</script>
-
 <template>
   <div class="home">
     <div class="band">
+      <div class="band-left">
+        <h2>Coindom sit amet consectetur adipisicing elit</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi tenetur
+          minus facilis, delectus, incidunt nemo at eius quae dolores accusamus
+          inventore animi quisquam quas.
+        </p>
+      </div>
       <div class="band-right">
+        <img class="band-analysis" src="../images/analysis.png" alt="" />
+        <img class="band-bitcoin" src="../images/bitcoin.png" alt="" />
+        <img class="band-eth" src="../images/ethereum.png" alt="" />
         <svg
           class="band-img"
           viewBox="0 0 200 200"
@@ -18,15 +25,130 @@ import { onMounted } from "vue";
           />
         </svg>
       </div>
-      <div class="band-left">
-        <h2></h2>
+    </div>
+    <div class="coin">
+      <div class="coin-left">
+        <svg class="coin-img" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path
+            fill="#1E293B"
+            d="M41,-69.9C55,-62.8,69.7,-55.8,78.5,-44.1C87.2,-32.5,90,-16.2,90.3,0.2C90.6,16.6,88.5,33.2,80.4,46.1C72.4,59,58.5,68.2,44.2,76.4C29.8,84.7,14.9,92.1,0.8,90.7C-13.3,89.4,-26.6,79.2,-40.2,70.5C-53.8,61.8,-67.8,54.5,-76.3,43C-84.8,31.4,-87.8,15.7,-85.5,1.4C-83.1,-13,-75.3,-26,-67.2,-38.1C-59,-50.3,-50.6,-61.7,-39.4,-70.4C-28.1,-79,-14.1,-84.9,-0.3,-84.4C13.5,-83.9,26.9,-76.9,41,-69.9Z"
+            transform="translate(100 100)"
+          />
+        </svg>
+      </div>
+      <div class="coin-right">
+        <h2>Coindom sit amet consectetur adipisicing elit</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi tenetur
+          minus facilis, delectus, incidunt nemo at eius quae dolores accusamus
+          inventore animi quisquam quas.
+        </p>
       </div>
     </div>
   </div>
 </template>
+<script setup>
+import { gsap } from "gsap";
 
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { onMounted } from "vue";
+
+gsap.registerPlugin(ScrollTrigger);
+onMounted(() => {
+  let tl = gsap.timeline({
+    // yes, we can add it to an entire timeline!
+    scrollTrigger: {
+      trigger: ".band-analysis",
+      scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+    },
+  });
+  // add animations and labels to the timeline
+  tl.addLabel("start")
+    .from(".band-bitcoin", {
+      y: 0,
+      x: 0,
+      scale: 1,
+      ease: "power2.out",
+    })
+    .to(".band-bitcoin", {
+      y: 640,
+      x: -460,
+      scale: 5,
+      ease: "power2.out",
+    });
+});
+</script>
 <style scoped>
+.band {
+  display: flex;
+  align-items: center;
+  padding-top: 5rem;
+}
+.band-right,
+.band-left {
+  flex-basis: 50%;
+}
+
+.band-left {
+  padding: 0 2rem 0 1rem;
+}
+.band-left h2 {
+  font-size: 3rem;
+  line-height: 3rem;
+  margin-bottom: 2rem;
+}
+.band-left p {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+.band-right {
+  position: relative;
+}
+.band-analysis {
+  width: 400px;
+  position: absolute;
+  left: calc(50% - (400px / 2));
+}
 .band-img {
   width: 300px;
+  margin: 0 auto;
+}
+.band-bitcoin,
+.band-eth {
+  width: 45px;
+  position: absolute;
+}
+.band-bitcoin {
+  left: 22%;
+  top: 90px;
+}
+.band-eth {
+  right: 20%;
+  top: 10px;
+}
+.coin {
+  margin-top: 15rem;
+  display: flex;
+  align-items: center;
+}
+.coin-left,
+.coin-right {
+  width: 50%;
+}
+.coin-right {
+  padding: 0 1.5rem;
+}
+.coin-right h2 {
+  font-size: 3rem;
+  line-height: 3rem;
+  margin-bottom: 2rem;
+}
+.coin-right p {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+.coin-img {
+  width: 450px;
+  margin: 0 auto;
 }
 </style>
