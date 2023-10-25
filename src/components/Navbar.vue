@@ -26,6 +26,7 @@ const onToggleMode = () => {
   const body = document.querySelector("body");
   const spin = document.querySelector(".spin");
   const img = document.querySelector(".img");
+  const coinName = document.querySelectorAll(".coin-name");
   if (!isToggle.value) {
     isToggle.value = true;
     body.style.backgroundImage = "linear-gradient(to left, #f0f9ff, #dbeafe)";
@@ -33,6 +34,9 @@ const onToggleMode = () => {
     spin.style.border = "2px dashed black";
     img.style.filter = "grayscale(100%)";
     spin.style.boxShadow = "0 0 1rem 0.1rem #cbd5e1";
+    for (var i = 0; i < coinName.length; i++) {
+      coinName[i].style.backgroundColor = "white";
+    }
   } else {
     isToggle.value = false;
     body.style.backgroundImage = "linear-gradient(to left, #0D1D32, #1C3150)";
