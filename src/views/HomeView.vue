@@ -60,40 +60,118 @@
         <div class="coin-name">
           <img src="../images/binance.png" alt="" />
           <div class="coin-infor">
-            <span>Bitcoin ({{ new Date().toLocaleDateString() }})</span>
-            <h3>BTC/USD</h3>
+            <span class="title"
+              >Bitcoin ({{ new Date().toLocaleDateString() }})</span
+            >
+            <h3 class="price"><span>BTC/USD</span></h3>
           </div>
         </div>
         <div class="coin-name">
           <div class="coin-infor">
-            <span>Open</span>
-            <h3 class="open-price">100.000 USD</h3>
+            <span class="title">Open</span>
+            <h3 class="price">
+              <Vue3autocounter
+                :startAmount="0"
+                :endAmount="100000"
+                :duration="3"
+                prefix="$"
+                suffix="USD"
+                separator=","
+                decimalSeparator="."
+                :decimals="2"
+                :autoinit="true"
+              />
+            </h3>
           </div>
         </div>
         <div class="coin-name">
           <div class="coin-infor">
-            <span>CLose</span>
-            <h3 class="close-price">140.000 USD</h3>
+            <span class="title">CLose</span>
+            <h3 class="price">
+              <Vue3autocounter
+                :startAmount="0"
+                :endAmount="140000"
+                :duration="3"
+                prefix="$"
+                suffix="USD"
+                separator=","
+                decimalSeparator="."
+                :decimals="2"
+                :autoinit="true"
+              />
+            </h3>
           </div>
         </div>
         <div class="coin-name">
           <div class="coin-infor">
-            <span>High</span>
-            <h3 class="high-price">150.000 USD</h3>
+            <span class="title">High</span>
+            <h3 class="price high-price">
+              <Vue3autocounter
+                :startAmount="0"
+                :endAmount="150000"
+                :duration="3"
+                prefix="$"
+                suffix="USD"
+                separator=","
+                decimalSeparator="."
+                :decimals="2"
+                :autoinit="true"
+              />
+            </h3>
           </div>
         </div>
         <div class="coin-name">
           <div class="coin-infor">
-            <span>Low</span>
-            <h3 class="low-price">60.000 USD</h3>
+            <span class="title">Low</span>
+            <h3 class="price low-price">
+              <Vue3autocounter
+                :startAmount="0"
+                :endAmount="90000"
+                :duration="3"
+                prefix="$"
+                suffix="USD"
+                separator=","
+                decimalSeparator="."
+                :decimals="2"
+                :autoinit="true"
+              />
+            </h3>
           </div>
         </div>
+      </div>
+      <div class="news">
+        <Carousel :breakpoints="breakpoints" :autoplay="5000" :transition="500">
+          <Slide v-for="slide in 10" :key="slide">
+            <div class="carousel-item">
+              <div class="news-item">
+                <img src="../images/coin news.jpg" alt="" class="news-img" />
+                <div class="news-text">
+                  <h4>Bitcoin pariatur dolores provident iure nulla?</h4>
+                  <p class="multiline-ellipsis">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Excepturi, debitis atque delectus placeat quae facilis. Eum
+                    eaque magnam voluptatem veniam, esse recusandae ipsa nemo
+                    quaerat labore illo culpa laboriosam ex?
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Slide>
+
+          <template #addons>
+            <Navigation />
+            <Pagination />
+          </template>
+        </Carousel>
       </div>
     </div>
   </div>
 </template>
 <script setup>
 import { gsap } from "gsap";
+import { Carousel, Navigation, Pagination, Slide } from "vue3-carousel";
+import "vue3-carousel/dist/carousel.css";
+import Vue3autocounter from "vue3-autocounter";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { onMounted, ref } from "vue";
 import {
@@ -121,10 +199,17 @@ ChartJS.register(
   LineElement,
   Filler
 );
-// var gradientfill = chart.value?.createlineargradient(500, 0, 100, 0);
-// gradientfill?.addcolorstop(0, "rgba(128, 182, 244, 0.6)");
-// gradientfill?.addcolorstop(1, "rgba(244, 144, 128, 0.6)");
 gsap.registerPlugin(ScrollTrigger);
+const breakpoints = {
+  0: {
+    itemsToShow: 1,
+    snapAlign: "start",
+  },
+  700: {
+    itemsToShow: 2,
+    snapAlign: "start",
+  },
+};
 const data = ref({
   labels: [
     "label1",
@@ -152,7 +237,7 @@ const data = ref({
 
         gradient.addColorStop(1, "rgb(34, 211, 238, 0.8)");
 
-        gradient.addColorStop(0, "rgb(125, 211, 252, 0.6)");
+        gradient.addColorStop(0, "rgb(125, 211, 252, 1)");
         return gradient;
       },
       borderWidth: 2,
@@ -245,13 +330,17 @@ onMounted(() => {
   chart
     .addLabel("start")
     .from(".chart", {
-      scaleY: 0,
+      scaleY: 0.3,
       opacity: 0,
     })
-    .to(".chart", {
-      scaleY: 1,
-      opacity: 1,
-    });
+    .to(
+      ".chart",
+      {
+        scaleY: 1,
+        opacity: 1,
+      },
+      "+=2"
+    );
 });
 </script>
 <style scoped>
@@ -328,13 +417,14 @@ onMounted(() => {
   margin: 0 auto;
 }
 .chart {
-  margin-top: 10rem;
+  margin-top: 0rem;
 }
 .parameter {
   margin-top: 2rem;
   display: flex;
   gap: 1rem;
 }
+
 .coin-name {
   display: flex;
   align-items: center;
@@ -345,11 +435,11 @@ onMounted(() => {
 .coin-infor {
   padding: 0.4rem;
 }
-.coin-infor span {
+.coin-infor .title {
   opacity: 0.6;
   font-size: 0.8rem;
 }
-.coin-infor h3 {
+.coin-infor .price span {
   font-size: 1rem;
   font-weight: 500;
 }
@@ -361,5 +451,47 @@ onMounted(() => {
 }
 .high-price {
   color: #00ff5e;
+}
+.news {
+  margin-top: 10rem;
+}
+.news-item {
+  display: flex;
+}
+.news-item .news-img {
+  width: 40%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.news-text {
+  text-align: left;
+  padding: 1rem;
+}
+.news-text h4 {
+  font-size: 1.3rem;
+  line-height: 1.3rem;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* start showing ellipsis when 3rd line is reached */
+  white-space: pre-wrap;
+}
+.news-text p {
+  font-size: 0.9rem;
+  line-height: 1.1rem;
+  opacity: 0.7;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; /* start showing ellipsis when 3rd line is reached */
+  white-space: pre-wrap;
+}
+.multiline-ellipsis {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; /* start showing ellipsis when 3rd line is reached */
+  white-space: pre-wrap; /* let the text wrap preserving spaces */
 }
 </style>

@@ -23,6 +23,7 @@ window.addEventListener("scroll", (e) => {
 <style scoped>
 .app {
   height: 3000px;
+  padding: 0 2rem;
 }
 .body {
   max-width: 1245px;
