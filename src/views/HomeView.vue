@@ -50,25 +50,42 @@
       </div>
     </div>
     <div class="chart">
-      <Line ref="chart" :data="data" :options="options" />
+      <Line
+        v-if="data.labels.length !== 0"
+        ref="chart"
+        :data="data"
+        :options="options"
+      />
       <div class="parameter">
         <div class="coin-name">
           <img src="../images/binance.png" alt="" />
           <div class="coin-infor">
-            <span>Bitcoin</span>
+            <span>Bitcoin ({{ new Date().toLocaleDateString() }})</span>
             <h3>BTC/USD</h3>
           </div>
         </div>
         <div class="coin-name">
           <div class="coin-infor">
             <span>Open</span>
-            <h3>100.000 USD</h3>
+            <h3 class="open-price">100.000 USD</h3>
           </div>
         </div>
         <div class="coin-name">
           <div class="coin-infor">
             <span>CLose</span>
-            <h3>100.000 USD</h3>
+            <h3 class="close-price">140.000 USD</h3>
+          </div>
+        </div>
+        <div class="coin-name">
+          <div class="coin-infor">
+            <span>High</span>
+            <h3 class="high-price">150.000 USD</h3>
+          </div>
+        </div>
+        <div class="coin-name">
+          <div class="coin-infor">
+            <span>Low</span>
+            <h3 class="low-price">60.000 USD</h3>
           </div>
         </div>
       </div>
@@ -109,7 +126,16 @@ ChartJS.register(
 // gradientfill?.addcolorstop(1, "rgba(244, 144, 128, 0.6)");
 gsap.registerPlugin(ScrollTrigger);
 const data = ref({
-  labels: ["January", "February", "March", "April", "May", "June", "July"],
+  labels: [
+    "label1",
+    "label2",
+    "label3",
+    "label4",
+    "label5",
+    "label6",
+    "label7",
+    "label8",
+  ],
   datasets: [
     {
       label: "Volume",
@@ -132,7 +158,7 @@ const data = ref({
       borderWidth: 2,
       tension: 0.2,
       pointBackgroundColor: "#fff",
-      data: [40, 39, 15, 40, 39, 80, 40],
+      data: [2, 19, 7, 14, 3, 9, 8, 2],
     },
   ],
 });
@@ -140,31 +166,38 @@ const options = ref({
   responsive: true,
 });
 const cryptos = ref([]);
+const cryptoCurrentDay = ref([]);
 onMounted(() => {
   const currentDate = new Date().toLocaleDateString().replaceAll("/", "-");
 
-  fetch(
-    `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_WEEKLY&symbol=BTC&market=VND&apikey=UJ0QANCY81EVLMJI`
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      let moneys = data["Time Series (Digital Currency Daily)"];
-      for (const key in moneys) {
-        if (moneys.hasOwnProperty(key)) {
-          // console.log(key, "=>", moneys[key]);
-          cryptos.value.push({ date: key, ...moneys[key] });
-        }
-      }
-    })
-    .then(() => {
-      console.log(cryptos.value, "MONEYS");
-      for (const key in cryptos.value[0]) {
-        if (cryptos.value[0].hasOwnProperty(key)) {
-          console.log(key, cryptos.value[0][key]);
-        }
-      }
-    });
+  // fetch(
+  //   `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CNY&apikey=UJ0QANCY81EVLMJI`
+  // )
+  //   .then((response) => response.json())
+  //   .then((dataMoney) => {
+  //     console.log(dataMoney)
+  //     let moneys = dataMoney["Time Series (Digital Currency Daily)"];
+  //     data.value.labels = [];
+  //     for (const key in moneys) {
+  //       if (moneys.hasOwnProperty(key) && cryptos.value.length < 8) {
+  //         // console.log(key, "=>", moneys[key]);
+  //         cryptos.value.push({ date: key, ...moneys[key] });
+  //         data.value.labels.unshift(key);
+  //         data.value.data.unshift(Number(moneys[key]["5. volume"]) / 10);
+  //       }
+  //     }
+  //     console.log(data.value.data, "Volume per day");
+  //   })
+  //   .then(() => {
+  //     console.log(cryptos.value, "MONEYS");
+  //     for (const key in cryptos.value[0]) {
+  //       if (cryptos.value[0].hasOwnProperty(key)) {
+  //         console.log(key, cryptos.value[0][key]);
+  //         cryptoCurrentDay.value.push({ type: key, ...cryptos.value[0] });
+  //       }
+  //     }
+  //     console.log(cryptoCurrentDay.value, "CRYPTOS CURRENT DAY");
+  //   });
   let bitcoin = gsap.timeline({
     // yes, we can add it to an entire timeline!
     scrollTrigger: {
@@ -209,7 +242,6 @@ onMounted(() => {
       scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
     },
   });
-
   chart
     .addLabel("start")
     .from(".chart", {
@@ -306,7 +338,7 @@ onMounted(() => {
 .coin-name {
   display: flex;
   align-items: center;
-  padding:0.5rem 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 10px;
   background-color: #1e293b;
 }
@@ -323,5 +355,11 @@ onMounted(() => {
 }
 .coin-name img {
   width: 30px;
+}
+.low-price {
+  color: #ff0000;
+}
+.high-price {
+  color: #00ff5e;
 }
 </style>

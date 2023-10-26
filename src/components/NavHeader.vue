@@ -1,26 +1,51 @@
 <template>
-  <div class="header">
-    <ul class="logo">
-      <li>Coindom</li>
-    </ul>
-    <ul class="nav">
-      <li class="nav-item"><router-link to="/">Home</router-link></li>
-      <li class="nav-item"><router-link to="/">Dash Board</router-link></li>
-      <li class="nav-item"><router-link to="/">Coin</router-link></li>
-      <li class="nav-item"><router-link to="/">About Us</router-link></li>
-    </ul>
-    <ul class="coin">
-      <li class="coin-item" @click="onToggleMode">
-        <div class="spin"></div>
-        <img class="img" src="../images/crypto.png" alt="Coin image" />
-      </li>
-    </ul>
+  <div ref="containerHeader" class="container-header">
+    <div class="header">
+      <ul class="logo">
+        <li>Coindom</li>
+      </ul>
+      <ul class="nav">
+        <li class="nav-item">
+          <router-link active-class="active" to="/">Home</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link active-class="active" to="/dashboard"
+            >Dash Board</router-link
+          >
+        </li>
+        <li class="nav-item">
+          <router-link active-class="active" to="/coin">Coin</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link active-class="active" to="/about">About Us</router-link>
+        </li>
+      </ul>
+      <ul class="coin">
+        <li class="coin-item" @click="onToggleMode">
+          <div class="spin"></div>
+          <img class="img" src="../images/crypto.png" alt="Coin image" />
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
+const containerHeader = ref();
 
+window.addEventListener("scroll", (e) => {
+  if (window.scrollY > 0) {
+    containerHeader.value.style.backgroundColor = "rgba(0,0,0,0.3)";
+    containerHeader.value.style.position = "fixed";
+    containerHeader.value.style.top = "0";
+    containerHeader.value.style.left = "0";
+    containerHeader.value.style.right = "0";
+  } else {
+    containerHeader.value.style.backgroundColor = "transparent";
+    containerHeader.value.style.position = "static";
+  }
+});
 const isToggle = ref(false);
 const onToggleMode = () => {
   const body = document.querySelector("body");
@@ -44,16 +69,27 @@ const onToggleMode = () => {
     spin.style.border = "2px dashed yellow";
     img.style.filter = "none";
     spin.style.boxShadow = "0 0 1rem 0.1rem rgb(255, 255, 0, 0.3)";
+    for (var i = 0; i < coinName.length; i++) {
+      coinName[i].style.backgroundColor = "#1e293b";
+    }
   }
 };
 </script>
 
 <style scoped>
+.active {
+  color: aqua;
+}
+.container-header {
+  z-index: 99;
+}
 .header {
   padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: 1245px;
+  margin: 0 auto;
 }
 .logo li {
   font-family: monospace;
