@@ -458,6 +458,7 @@ onMounted(() => {
 }
 .news {
   margin-top: 5rem;
+  margin-bottom: 5rem;
 }
 .cate-title {
   font-size: 3rem;

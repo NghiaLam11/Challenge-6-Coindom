@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import Navbar from "./components/NavHeader.vue";
+import FooterVue from "./components/Footer.vue";
 const body = ref();
 window.addEventListener("scroll", (e) => {
   if (window.scrollY > 0) {
@@ -17,14 +18,13 @@ window.addEventListener("scroll", (e) => {
       <Navbar />
     </div>
     <div ref="body" class="body"><router-view></router-view></div>
+    <div>
+      <FooterVue />
+    </div>
   </div>
 </template>
 
 <style scoped>
-.app {
-  height: 3000px;
-  padding: 0 2rem;
-}
 .body {
   max-width: 1245px;
   margin: 0 auto;
