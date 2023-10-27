@@ -50,13 +50,15 @@
       </div>
     </div>
     <div class="chart">
+      <h2 class="cate-title">DASHBOARD</h2>
+
       <Line
-        v-if="data.labels.length !== 0"
+        v-if="dataChart.labels.length !== 0"
         ref="chart"
-        :data="data"
+        :data="dataChart"
         :options="options"
       />
-      <div class="parameter">
+      <div class="parameter" v-if="cryptos.length > 0">
         <div class="coin-name">
           <img src="../images/binance.png" alt="" />
           <div class="coin-infor">
@@ -72,7 +74,7 @@
             <h3 class="price">
               <Vue3autocounter
                 :startAmount="0"
-                :endAmount="100000"
+                :endAmount="Number(cryptos[0]['1b. open (USD)'])"
                 :duration="3"
                 prefix="$"
                 suffix="USD"
@@ -90,7 +92,7 @@
             <h3 class="price">
               <Vue3autocounter
                 :startAmount="0"
-                :endAmount="140000"
+                :endAmount="Number(cryptos[0]['4b. close (USD)'])"
                 :duration="3"
                 prefix="$"
                 suffix="USD"
@@ -108,7 +110,7 @@
             <h3 class="price high-price">
               <Vue3autocounter
                 :startAmount="0"
-                :endAmount="150000"
+                :endAmount="Number(cryptos[0]['2b. high (USD)'])"
                 :duration="3"
                 prefix="$"
                 suffix="USD"
@@ -126,7 +128,7 @@
             <h3 class="price low-price">
               <Vue3autocounter
                 :startAmount="0"
-                :endAmount="90000"
+                :endAmount="Number(cryptos[0]['3b. low (USD)'])"
                 :duration="3"
                 prefix="$"
                 suffix="USD"
@@ -139,31 +141,38 @@
           </div>
         </div>
       </div>
-      <div class="news">
-        <Carousel :breakpoints="breakpoints" :autoplay="5000" :transition="500">
-          <Slide v-for="slide in 10" :key="slide">
-            <div class="carousel-item">
-              <div class="news-item">
-                <img src="../images/coin news.jpg" alt="" class="news-img" />
-                <div class="news-text">
-                  <h4>Bitcoin pariatur dolores provident iure nulla?</h4>
-                  <p class="multiline-ellipsis">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Excepturi, debitis atque delectus placeat quae facilis. Eum
-                    eaque magnam voluptatem veniam, esse recusandae ipsa nemo
-                    quaerat labore illo culpa laboriosam ex?
-                  </p>
-                </div>
+      <h2 class="limited-fetch" v-else>OPPS! SORRY THE API HAD LIMITED</h2>
+    </div>
+    <div class="news">
+      <h2 class="cate-title">NEWS</h2>
+      <Carousel
+        :breakpoints="breakpoints"
+        :autoplay="5000"
+        :transition="500"
+        :pause-autoplay-on-hover="true"
+      >
+        <Slide v-for="slide in 10" :key="slide">
+          <div class="carousel-item">
+            <div class="news-item">
+              <img src="../images/coin news.jpg" alt="" class="news-img" />
+              <div class="news-text">
+                <h4>Bitcoin pariatur dolores provident iure nulla?</h4>
+                <p class="multiline-ellipsis">
+                  Lorem ipsum dolor sit amet consectetur sicing elit. Excepturi,
+                  debitis atque delectus placeat quae facilis. Eum eaque magnam
+                  voluptatem veniam, esse recusandae ipsa nemo quaerat labore
+                  illo culpa laboriosam ex?
+                </p>
               </div>
             </div>
-          </Slide>
+          </div>
+        </Slide>
 
-          <template #addons>
-            <Navigation />
-            <Pagination />
-          </template>
-        </Carousel>
-      </div>
+        <template #addons>
+          <Navigation />
+          <Pagination />
+        </template>
+      </Carousel>
     </div>
   </div>
 </template>
@@ -210,16 +219,16 @@ const breakpoints = {
     snapAlign: "start",
   },
 };
-const data = ref({
+const dataChart = ref({
   labels: [
-    "label1",
-    "label2",
-    "label3",
-    "label4",
-    "label5",
-    "label6",
-    "label7",
-    "label8",
+    // "label1",
+    // "label2",
+    // "label3",
+    // "label4",
+    // "label5",
+    // "label6",
+    // "label7",
+    // "label8",
   ],
   datasets: [
     {
@@ -243,7 +252,7 @@ const data = ref({
       borderWidth: 2,
       tension: 0.2,
       pointBackgroundColor: "#fff",
-      data: [2, 19, 7, 14, 3, 9, 8, 2],
+      data: [],
     },
   ],
 });
@@ -251,38 +260,28 @@ const options = ref({
   responsive: true,
 });
 const cryptos = ref([]);
-const cryptoCurrentDay = ref([]);
-onMounted(() => {
-  const currentDate = new Date().toLocaleDateString().replaceAll("/", "-");
 
-  // fetch(
-  //   `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CNY&apikey=UJ0QANCY81EVLMJI`
-  // )
-  //   .then((response) => response.json())
-  //   .then((dataMoney) => {
-  //     console.log(dataMoney)
-  //     let moneys = dataMoney["Time Series (Digital Currency Daily)"];
-  //     data.value.labels = [];
-  //     for (const key in moneys) {
-  //       if (moneys.hasOwnProperty(key) && cryptos.value.length < 8) {
-  //         // console.log(key, "=>", moneys[key]);
-  //         cryptos.value.push({ date: key, ...moneys[key] });
-  //         data.value.labels.unshift(key);
-  //         data.value.data.unshift(Number(moneys[key]["5. volume"]) / 10);
-  //       }
-  //     }
-  //     console.log(data.value.data, "Volume per day");
-  //   })
-  //   .then(() => {
-  //     console.log(cryptos.value, "MONEYS");
-  //     for (const key in cryptos.value[0]) {
-  //       if (cryptos.value[0].hasOwnProperty(key)) {
-  //         console.log(key, cryptos.value[0][key]);
-  //         cryptoCurrentDay.value.push({ type: key, ...cryptos.value[0] });
-  //       }
-  //     }
-  //     console.log(cryptoCurrentDay.value, "CRYPTOS CURRENT DAY");
-  //   });
+onMounted(() => {
+  fetch(
+    `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CNY&apikey=UJ0QANCY81EVLMJI`
+  )
+    .then((response) => response.json())
+    .then((dataMoney) => {
+      console.log(dataMoney);
+      if (dataMoney.length > 1) {
+        let moneys = dataMoney["Time Series (Digital Currency Daily)"];
+        dataChart.value.labels = [];
+        for (const key in moneys) {
+          if (moneys.hasOwnProperty(key) && cryptos.value.length < 8) {
+            cryptos.value.push({ date: key, ...moneys[key] });
+            dataChart.value.labels.unshift(key);
+            dataChart.value.datasets[0].data.unshift(
+              Number(moneys[key]["5. volume"])
+            );
+          }
+        }
+      }
+    });
   let bitcoin = gsap.timeline({
     // yes, we can add it to an entire timeline!
     scrollTrigger: {
@@ -331,12 +330,14 @@ onMounted(() => {
     .addLabel("start")
     .from(".chart", {
       scaleY: 0.3,
+      display: "none",
       opacity: 0,
     })
     .to(
       ".chart",
       {
         scaleY: 1,
+        display: "block",
         opacity: 1,
       },
       "+=2"
@@ -417,7 +418,7 @@ onMounted(() => {
   margin: 0 auto;
 }
 .chart {
-  margin-top: 0rem;
+  margin-top: 5rem;
 }
 .parameter {
   margin-top: 2rem;
@@ -452,16 +453,29 @@ onMounted(() => {
 .high-price {
   color: #00ff5e;
 }
+.limited-fetch {
+  text-align: center;
+}
 .news {
-  margin-top: 10rem;
+  margin-top: 5rem;
+}
+.cate-title {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 4rem;
 }
 .news-item {
   display: flex;
+  cursor: pointer;
 }
 .news-item .news-img {
+  filter: grayscale(10);
   width: 40%;
   object-fit: cover;
   border-radius: 10px;
+}
+.news-item:hover .news-img {
+  filter: grayscale(0);
 }
 .news-text {
   text-align: left;

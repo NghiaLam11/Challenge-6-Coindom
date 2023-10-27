@@ -36,7 +36,7 @@ const containerHeader = ref();
 
 window.addEventListener("scroll", (e) => {
   if (window.scrollY > 0) {
-    containerHeader.value.style.backgroundColor = "rgba(0,0,0,0.3)";
+    containerHeader.value.style.backgroundColor = "rgba(0,0,0,0.2)";
     containerHeader.value.style.position = "fixed";
     containerHeader.value.style.top = "0";
     containerHeader.value.style.left = "0";
@@ -118,6 +118,8 @@ const onToggleMode = () => {
   position: absolute;
   height: 55px;
   width: 55px;
+  top: calc(50% - (55px / 2));
+  right: calc(50% - (55px / 2));
   transition: all 0.5s linear;
   box-shadow: 0 0 1rem 0.1rem rgb(255, 255, 0, 0.3);
   border-radius: 50%;
@@ -125,6 +127,9 @@ const onToggleMode = () => {
   z-index: 2;
   background-color: transparent;
   animation: spinBorderCoin 7s linear infinite;
+}
+.coin:hover .spin {
+  scale: 1.1;
 }
 @keyframes spinBorderCoin {
   from {
