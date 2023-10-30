@@ -24,9 +24,10 @@ window.addEventListener("scroll", (e) => {
   </div>
 </template>
 
-<style scoped>
+<style>
 .body {
   max-width: 1245px;
+  min-height: 100vh;
   margin: 0 auto;
 }
 </style>

@@ -49,99 +49,8 @@
         </p>
       </div>
     </div>
-    <div class="chart">
-      <h2 class="cate-title">DASHBOARD</h2>
-
-      <Line
-        v-if="dataChart.labels.length !== 0"
-        ref="chart"
-        :data="dataChart"
-        :options="options"
-      />
-      <div class="parameter" v-if="cryptos.length > 0">
-        <div class="coin-name">
-          <img src="../images/binance.png" alt="" />
-          <div class="coin-infor">
-            <span class="title"
-              >Bitcoin ({{ new Date().toLocaleDateString() }})</span
-            >
-            <h3 class="price"><span>BTC/USD</span></h3>
-          </div>
-        </div>
-        <div class="coin-name">
-          <div class="coin-infor">
-            <span class="title">Open</span>
-            <h3 class="price">
-              <Vue3autocounter
-                :startAmount="0"
-                :endAmount="Number(cryptos[0]['1b. open (USD)'])"
-                :duration="3"
-                prefix="$"
-                suffix="USD"
-                separator=","
-                decimalSeparator="."
-                :decimals="2"
-                :autoinit="true"
-              />
-            </h3>
-          </div>
-        </div>
-        <div class="coin-name">
-          <div class="coin-infor">
-            <span class="title">CLose</span>
-            <h3 class="price">
-              <Vue3autocounter
-                :startAmount="0"
-                :endAmount="Number(cryptos[0]['4b. close (USD)'])"
-                :duration="3"
-                prefix="$"
-                suffix="USD"
-                separator=","
-                decimalSeparator="."
-                :decimals="2"
-                :autoinit="true"
-              />
-            </h3>
-          </div>
-        </div>
-        <div class="coin-name">
-          <div class="coin-infor">
-            <span class="title">High</span>
-            <h3 class="price high-price">
-              <Vue3autocounter
-                :startAmount="0"
-                :endAmount="Number(cryptos[0]['2b. high (USD)'])"
-                :duration="3"
-                prefix="$"
-                suffix="USD"
-                separator=","
-                decimalSeparator="."
-                :decimals="2"
-                :autoinit="true"
-              />
-            </h3>
-          </div>
-        </div>
-        <div class="coin-name">
-          <div class="coin-infor">
-            <span class="title">Low</span>
-            <h3 class="price low-price">
-              <Vue3autocounter
-                :startAmount="0"
-                :endAmount="Number(cryptos[0]['3b. low (USD)'])"
-                :duration="3"
-                prefix="$"
-                suffix="USD"
-                separator=","
-                decimalSeparator="."
-                :decimals="2"
-                :autoinit="true"
-              />
-            </h3>
-          </div>
-        </div>
-      </div>
-      <h2 class="limited-fetch" v-else>OPPS! SORRY THE API HAD LIMITED</h2>
+    <div class="dashboard">
+      <DashBoard />
     </div>
     <div class="news">
       <h2 class="cate-title">NEWS</h2>
@@ -152,7 +61,7 @@
         :pause-autoplay-on-hover="true"
       >
         <Slide v-for="slide in 10" :key="slide">
-          <div class="carousel-item">
+          <a href="" class="carousel-item">
             <div class="news-item">
               <img src="../images/coin news.jpg" alt="" class="news-img" />
               <div class="news-text">
@@ -165,7 +74,7 @@
                 </p>
               </div>
             </div>
-          </div>
+          </a>
         </Slide>
 
         <template #addons>
@@ -177,38 +86,13 @@
   </div>
 </template>
 <script setup>
+import DashBoard from "../components/DashBoard.vue";
 import { gsap } from "gsap";
 import { Carousel, Navigation, Pagination, Slide } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
-import Vue3autocounter from "vue3-autocounter";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { onMounted, ref } from "vue";
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  PointElement,
-  LineElement,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Filler,
-} from "chart.js";
-import { Line } from "vue-chartjs";
-const chart = ref();
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  PointElement,
-  LineElement,
-  Filler
-);
 gsap.registerPlugin(ScrollTrigger);
+import { onMounted, ref } from "vue";
 const breakpoints = {
   0: {
     itemsToShow: 1,
@@ -219,69 +103,8 @@ const breakpoints = {
     snapAlign: "start",
   },
 };
-const dataChart = ref({
-  labels: [
-    // "label1",
-    // "label2",
-    // "label3",
-    // "label4",
-    // "label5",
-    // "label6",
-    // "label7",
-    // "label8",
-  ],
-  datasets: [
-    {
-      label: "Volume",
-      borderColor: "#fff",
-      animations: {
-        y: {
-          easing: "ease",
-        },
-      },
-      fill: true,
-      backgroundColor: (ctx) => {
-        const canvas = ctx.chart.ctx;
-        const gradient = canvas.createLinearGradient(0, 0, 0, 400);
-
-        gradient.addColorStop(1, "rgb(34, 211, 238, 0.8)");
-
-        gradient.addColorStop(0, "rgb(125, 211, 252, 1)");
-        return gradient;
-      },
-      borderWidth: 2,
-      tension: 0.2,
-      pointBackgroundColor: "#fff",
-      data: [],
-    },
-  ],
-});
-const options = ref({
-  responsive: true,
-});
-const cryptos = ref([]);
 
 onMounted(() => {
-  fetch(
-    `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CNY&apikey=UJ0QANCY81EVLMJI`
-  )
-    .then((response) => response.json())
-    .then((dataMoney) => {
-      console.log(dataMoney);
-      if (dataMoney.length > 1) {
-        let moneys = dataMoney["Time Series (Digital Currency Daily)"];
-        dataChart.value.labels = [];
-        for (const key in moneys) {
-          if (moneys.hasOwnProperty(key) && cryptos.value.length < 8) {
-            cryptos.value.push({ date: key, ...moneys[key] });
-            dataChart.value.labels.unshift(key);
-            dataChart.value.datasets[0].data.unshift(
-              Number(moneys[key]["5. volume"])
-            );
-          }
-        }
-      }
-    });
   let bitcoin = gsap.timeline({
     // yes, we can add it to an entire timeline!
     scrollTrigger: {
@@ -319,22 +142,21 @@ onMounted(() => {
       duration: 1,
       ease: "circ.out",
     });
-  let chart = gsap.timeline({
-    // yes, we can add it to an entire timeline!
+  let dashboard = gsap.timeline({
     scrollTrigger: {
-      trigger: ".chart",
-      scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+      trigger: ".dashboard",
+      scrub: 1, 
     },
   });
-  chart
+  dashboard
     .addLabel("start")
-    .from(".chart", {
+    .from(".dashboard", {
       scaleY: 0.3,
       display: "none",
       opacity: 0,
     })
     .to(
-      ".chart",
+      ".dashboard",
       {
         scaleY: 1,
         display: "block",
@@ -416,45 +238,6 @@ onMounted(() => {
 .coin-img {
   width: 450px;
   margin: 0 auto;
-}
-.chart {
-  margin-top: 5rem;
-}
-.parameter {
-  margin-top: 2rem;
-  display: flex;
-  gap: 1rem;
-}
-
-.coin-name {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  background-color: #1e293b;
-}
-.coin-infor {
-  padding: 0.4rem;
-}
-.coin-infor .title {
-  opacity: 0.6;
-  font-size: 0.8rem;
-}
-.coin-infor .price span {
-  font-size: 1rem;
-  font-weight: 500;
-}
-.coin-name img {
-  width: 30px;
-}
-.low-price {
-  color: #ff0000;
-}
-.high-price {
-  color: #00ff5e;
-}
-.limited-fetch {
-  text-align: center;
 }
 .news {
   margin-top: 5rem;
