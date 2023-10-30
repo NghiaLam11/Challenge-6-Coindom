@@ -94,4 +94,12 @@
 .list-contact .item {
   font-size: 1.7rem;
 }
+@media screen and (max-width: 534px) {
+  .footer-wrapper{
+    flex-direction: column;
+  }
+  .footer-group {
+    margin: 0.5rem 0;
+  }
+}
 </style>

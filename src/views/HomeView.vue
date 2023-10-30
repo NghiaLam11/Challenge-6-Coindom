@@ -2,7 +2,7 @@
   <div class="home">
     <div class="band">
       <div class="band-left">
-        <h2>Coindom sit amet consectetur adipisicing elit</h2>
+        <h2>Coindom sit amet consectetur adipisicing</h2>
         <p>
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi tenetur
           minus facilis, delectus, incidunt nemo at eius quae dolores accusamus
@@ -41,7 +41,7 @@
         </svg>
       </div>
       <div class="coin-right">
-        <h2>Coindom sit amet consectetur adipisicing elit</h2>
+        <h2>Coindom sit amet consectetur elit</h2>
         <p>
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi tenetur
           minus facilis, delectus, incidunt nemo at eius quae dolores accusamus
@@ -105,65 +105,190 @@ const breakpoints = {
 };
 
 onMounted(() => {
-  let bitcoin = gsap.timeline({
-    // yes, we can add it to an entire timeline!
-    scrollTrigger: {
-      trigger: ".band-analysis",
-      scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-    },
-  });
-  // add animations and labels to the timeline
-  bitcoin
-    .addLabel("start", 3)
-    .from(".band-bitcoin", {
-      y: 0,
-      x: 0,
-      scale: 1,
-      ease: "power2.out",
-    })
-    .from(".band-eth", {
-      y: 0,
-      x: 0,
-      scale: 1,
-      ease: "power2.out",
-      delay: 2,
-    })
-    .to(".band-bitcoin", {
-      y: 640,
-      x: -460,
-      scale: 5,
-      duration: 2,
-      ease: "circ.out",
-    })
-    .to(".band-eth", {
-      y: 800,
-      x: -660,
-      scale: 2,
-      duration: 1,
-      ease: "circ.out",
-    });
-  let dashboard = gsap.timeline({
-    scrollTrigger: {
-      trigger: ".dashboard",
-      scrub: 1, 
-    },
-  });
-  dashboard
-    .addLabel("start")
-    .from(".dashboard", {
-      scaleY: 0.3,
-      display: "none",
-      opacity: 0,
-    })
-    .to(
-      ".dashboard",
-      {
-        scaleY: 1,
-        display: "block",
-        opacity: 1,
+  let mm = gsap.matchMedia();
+  mm.add("(min-width: 964px)", () => {
+    let bitcoin = gsap.timeline({
+      // yes, we can add it to an entire timeline!
+      scrollTrigger: {
+        trigger: ".band-analysis",
+        scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
       },
-      "+=2"
-    );
+    });
+    // add animations and labels to the timeline
+    bitcoin
+      .addLabel("start", 3)
+      .from(".band-bitcoin", {
+        y: 0,
+        x: 0,
+        scale: 1,
+        ease: "power2.out",
+      })
+      .from(".band-eth", {
+        y: 0,
+        x: 0,
+        scale: 1,
+        ease: "power2.out",
+        delay: 2,
+      })
+      .to(".band-bitcoin", {
+        y: 640,
+        x: -460,
+        scale: 5,
+        duration: 2,
+        ease: "circ.out",
+      })
+      .to(".band-eth", {
+        y: 800,
+        x: -660,
+        scale: 2,
+        duration: 1,
+        ease: "circ.out",
+      });
+    let dashboard = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".dashboard",
+        scrub: 1,
+      },
+    });
+    dashboard
+      .addLabel("start")
+      .from(".dashboard", {
+        scaleY: 0.3,
+        display: "none",
+        opacity: 0,
+      })
+      .to(
+        ".dashboard",
+        {
+          scaleY: 1,
+          display: "block",
+          opacity: 1,
+        },
+        "+=2"
+      );
+  });
+  mm.add("(min-width: 734px) and (max-width: 964px)", () => {
+    let bitcoin = gsap.timeline({
+      // yes, we can add it to an entire timeline!
+      scrollTrigger: {
+        trigger: ".band-analysis",
+        scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+      },
+    });
+    // add animations and labels to the timeline
+    bitcoin
+      .addLabel("start", 3)
+      .from(".band-bitcoin", {
+        y: 0,
+        x: 0,
+        scale: 1,
+        ease: "power2.out",
+      })
+      .from(".band-eth", {
+        y: 0,
+        x: 0,
+        scale: 1,
+        ease: "power2.out",
+        delay: 2,
+      })
+      .to(".band-bitcoin", {
+        y: 640,
+        x: -330,
+        scale: 5,
+        duration: 2,
+        ease: "circ.out",
+      })
+      .to(".band-eth", {
+        y: 800,
+        x: -400,
+        scale: 2,
+        duration: 1,
+        ease: "circ.out",
+      });
+    let dashboard = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".dashboard",
+        scrub: 1,
+      },
+    });
+    dashboard
+      .addLabel("start")
+      .from(".dashboard", {
+        scaleY: 0.3,
+        display: "none",
+        opacity: 0,
+      })
+      .to(
+        ".dashboard",
+        {
+          scaleY: 1,
+          display: "block",
+          opacity: 1,
+        },
+        "+=2"
+      );
+  });
+  mm.add("(max-width: 734px)", () => {
+    let bitcoin = gsap.timeline({
+      // yes, we can add it to an entire timeline!
+      scrollTrigger: {
+        trigger: ".band-analysis",
+        scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+      },
+    });
+    // add animations and labels to the timeline
+    bitcoin
+      .addLabel("start", 3)
+      .from(".band-bitcoin", {
+        y: 0,
+        x: 0,
+        scale: 1,
+        ease: "power2.out",
+      })
+      .from(".band-eth", {
+        y: 0,
+        x: 0,
+        scale: 1,
+        ease: "power2.out",
+        delay: 2,
+      })
+      .to(".band-bitcoin", {
+        y: 720,
+        x: 150,
+        scale: 4,
+        duration: 2,
+        ease: "circ.out",
+      })
+      .to(".band-eth", {
+        y: 820,
+        x: 10,
+        scale: 1.3,
+        duration: 1,
+        ease: "circ.out",
+      });
+    let dashboard = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".dashboard",
+        scrub: 1,
+      },
+    });
+    dashboard
+      .addLabel("start")
+      .from(".dashboard", {
+        scaleY: 0.3,
+        display: "none",
+        opacity: 0,
+      })
+      .to(
+        ".dashboard",
+        {
+          scaleY: 1,
+          display: "block",
+          opacity: 1,
+        },
+        "+=2"
+      );
+  });
 });
 </script>
 <style scoped>
@@ -291,5 +416,28 @@ onMounted(() => {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4; /* start showing ellipsis when 3rd line is reached */
   white-space: pre-wrap; /* let the text wrap preserving spaces */
+}
+@media screen and (max-width: 734px) {
+  .band {
+    flex-direction: column;
+  }
+  .band-right {
+    margin-top: 3rem;
+  }
+  .band-bitcoin {
+    left: -10%;
+    top: 60px;
+  }
+  .coin {
+    flex-direction: column-reverse;
+    margin-top: 4rem;
+  }
+  .coin-right {
+    width: 100%;
+    padding-bottom: 2rem;
+  }
+  .news {
+    padding: 0 0.8rem;
+  }
 }
 </style>

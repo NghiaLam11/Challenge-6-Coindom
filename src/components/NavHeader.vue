@@ -21,6 +21,9 @@
         </li>
       </ul>
       <ul class="coin">
+        <ul class="nav-icon" @click="onToggleNav">
+          <li class="nav-item"><i class="fa-solid fa-bars icon"></i></li>
+        </ul>
         <li class="coin-item" @click="onToggleMode">
           <div class="spin"></div>
           <img class="img" src="../images/crypto.png" alt="Coin image" />
@@ -28,6 +31,25 @@
       </ul>
     </div>
   </div>
+  <ul class="nav-mobile" ref="navMobile">
+    <li class="nav-item">
+      <router-link active-class="active" to="/">Home</router-link>
+    </li>
+    <li class="nav-item">
+      <router-link active-class="active" to="/dashboard"
+        >Dash Board</router-link
+      >
+    </li>
+    <li class="nav-item">
+      <router-link active-class="active" to="/coin">Coin</router-link>
+    </li>
+    <li class="nav-item">
+      <router-link active-class="active" to="/about">About Us</router-link>
+    </li>
+    <div class="nav-close" @click="onToggleNav">
+      <i class="fa-solid fa-xmark"></i>
+    </div>
+  </ul>
 </template>
 
 <script setup>
@@ -46,6 +68,16 @@ window.addEventListener("scroll", (e) => {
     containerHeader.value.style.position = "static";
   }
 });
+const isToggleNav = ref(false);
+const navMobile = ref();
+const onToggleNav = () => {
+  if (isToggleNav.value === true) {
+    navMobile.value.style.visibility = "hidden";
+  } else if (isToggleNav.value === false) {
+    navMobile.value.style.visibility = "visible";
+  }
+  isToggleNav.value = !isToggleNav.value
+};
 const isToggle = ref(false);
 const onToggleMode = () => {
   const body = document.querySelector("body");
@@ -105,6 +137,10 @@ const onToggleMode = () => {
 .nav li {
   padding: 0.5rem 1rem;
 }
+.coin {
+  display: flex;
+  align-items: center;
+}
 .coin .img {
   padding: 8px;
   height: 55px;
@@ -137,6 +173,46 @@ const onToggleMode = () => {
   }
   to {
     transform: rotate(180deg);
+  }
+}
+.nav-icon {
+  display: none;
+}
+
+@media screen and (max-width: 734px) {
+  .nav {
+    display: none;
+  }
+  .nav-icon {
+    display: block;
+    margin: 0 1rem;
+    padding: 0 0.5rem;
+    font-size: 1.5rem;
+  }
+  .nav-mobile {
+    background-color: #0d1d32;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+  }
+  .nav-close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 1.5rem;
+    opacity: 0.8;
+  }
+  .nav-mobile .nav-item {
+    padding: 0.3rem 0.4rem;
+    font-size: 1.1rem;
   }
 }
 </style>

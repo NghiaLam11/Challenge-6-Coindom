@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import Navbar from "./components/NavHeader.vue";
-import FooterVue from "./components/Footer.vue";
+import FooterVue from "./components/NavFooter.vue";
 const body = ref();
 window.addEventListener("scroll", (e) => {
   if (window.scrollY > 0) {
