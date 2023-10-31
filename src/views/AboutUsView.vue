@@ -34,6 +34,9 @@
   </div>
 </template>
 <style scoped>
+.about {
+  padding: 1rem;
+}
 .band {
   padding: 3rem 0;
 }

@@ -58,7 +58,7 @@
 .footer {
   position: relative;
   padding: 2rem 0;
-  background-color: #111827;
+  background-color: rgb(17, 24, 39);
   bottom: 0;
   left: 0;
   right: 0;

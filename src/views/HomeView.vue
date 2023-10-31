@@ -367,6 +367,7 @@ onMounted(() => {
 .news {
   margin-top: 5rem;
   margin-bottom: 5rem;
+  padding: 0 0.8rem;
 }
 .cate-title {
   font-size: 3rem;
@@ -436,8 +437,6 @@ onMounted(() => {
     width: 100%;
     padding-bottom: 2rem;
   }
-  .news {
-    padding: 0 0.8rem;
-  }
+
 }
 </style>

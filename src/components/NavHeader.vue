@@ -53,7 +53,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, onUpdated, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 const containerHeader = ref();
 
 window.addEventListener("scroll", (e) => {
@@ -71,18 +72,20 @@ window.addEventListener("scroll", (e) => {
 const isToggleNav = ref(false);
 const navMobile = ref();
 const onToggleNav = () => {
+  isToggleNav.value = !isToggleNav.value;
   if (isToggleNav.value === true) {
-    navMobile.value.style.visibility = "hidden";
-  } else if (isToggleNav.value === false) {
     navMobile.value.style.visibility = "visible";
+  } else if (isToggleNav.value === false) {
+    navMobile.value.style.visibility = "hidden";
   }
-  isToggleNav.value = !isToggleNav.value
 };
 const isToggle = ref(false);
 const onToggleMode = () => {
   const body = document.querySelector("body");
   const spin = document.querySelector(".spin");
   const img = document.querySelector(".img");
+  const footer = document.querySelector(".footer");
+  const navMobile = document.querySelector(".nav-mobile");
   const coinName = document.querySelectorAll(".coin-name");
   if (!isToggle.value) {
     isToggle.value = true;
@@ -91,6 +94,8 @@ const onToggleMode = () => {
     spin.style.border = "2px dashed black";
     img.style.filter = "grayscale(100%)";
     spin.style.boxShadow = "0 0 1rem 0.1rem #cbd5e1";
+    footer.style.backgroundColor = "rgb(17, 24, 39, 0.2)";
+    navMobile.style.backgroundColor = "aliceblue";
     for (var i = 0; i < coinName.length; i++) {
       coinName[i].style.backgroundColor = "white";
     }
@@ -101,11 +106,23 @@ const onToggleMode = () => {
     spin.style.border = "2px dashed yellow";
     img.style.filter = "none";
     spin.style.boxShadow = "0 0 1rem 0.1rem rgb(255, 255, 0, 0.3)";
+    footer.style.backgroundColor = "rgb(17, 24, 39)";
+    navMobile.style.backgroundColor = "rgb(17, 24, 39)";
+
     for (var i = 0; i < coinName.length; i++) {
       coinName[i].style.backgroundColor = "#1e293b";
     }
   }
 };
+// LISTEN ROUTES CHANGE TO HIDDEN NAV MOBILE
+const route = useRoute();
+watch(
+  () => route.fullPath,
+  () => {
+    isToggleNav.value = false;
+    navMobile.value.style.visibility = "hidden";
+  }
+);
 </script>
 
 <style scoped>
@@ -176,6 +193,9 @@ const onToggleMode = () => {
   }
 }
 .nav-icon {
+  display: none;
+}
+.nav-mobile {
   display: none;
 }
 
